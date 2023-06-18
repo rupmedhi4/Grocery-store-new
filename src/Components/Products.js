@@ -83,7 +83,37 @@ export default function Products() {
       img: 'https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2FLIu8tS4yHSU28Xi8BXCj?alt=media&token=31e796ad-dbd6-4e4f-a8a9-192f5158684a',
       title: 'Dummy Title 20',
       paragraph: 'Paragraph 20'
-    }
+    },
+    {
+      img: 'https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2FLIu8tS4yHSU28Xi8BXCj?alt=media&token=31e796ad-dbd6-4e4f-a8a9-192f5158684a',
+      title: 'Dummy Title 20',
+      paragraph: 'Paragraph 20'
+    },
+    {
+      img: 'https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2FLIu8tS4yHSU28Xi8BXCj?alt=media&token=31e796ad-dbd6-4e4f-a8a9-192f5158684a',
+      title: 'Dummy Title 20',
+      paragraph: 'Paragraph 20'
+    },
+    {
+      img: 'https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2FLIu8tS4yHSU28Xi8BXCj?alt=media&token=31e796ad-dbd6-4e4f-a8a9-192f5158684a',
+      title: 'Dummy Title 20',
+      paragraph: 'Paragraph 20'
+    },
+    {
+      img: 'https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2FLIu8tS4yHSU28Xi8BXCj?alt=media&token=31e796ad-dbd6-4e4f-a8a9-192f5158684a',
+      title: 'Dummy Title 20',
+      paragraph: 'Paragraph 20'
+    },
+    {
+      img: 'https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2FLIu8tS4yHSU28Xi8BXCj?alt=media&token=31e796ad-dbd6-4e4f-a8a9-192f5158684a',
+      title: 'Dummy Title 20',
+      paragraph: 'Paragraph 20'
+    },
+    {
+      img: 'https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2FLIu8tS4yHSU28Xi8BXCj?alt=media&token=31e796ad-dbd6-4e4f-a8a9-192f5158684a',
+      title: 'Dummy Title 20',
+      paragraph: 'Paragraph 20'
+    },
 
   ]
 const navigate = useNavigate();

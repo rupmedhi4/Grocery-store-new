@@ -36,7 +36,7 @@ export default function NavPhoto() {
       marginLeft={"5rem"}
       marginRight={"5rem"}
       marginTop={"2rem"}
-
+bg={"linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(241,7,7,1) 49%, rgba(252,176,69,1) 100%);"}
 
     >
       <Image

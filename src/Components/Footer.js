@@ -22,7 +22,7 @@ export default function Footer() {
 
   return (
 
-        <Flex mt={"5rem"}  justify={"space-between"} bg={"blue.700"}>
+        <Flex  bg={"linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(54,42,120,1) 43%, rgba(39,11,183,1) 48%, rgba(0,212,255,1) 100%);"}  justify={"space-between"} >
           
             <Box  p="4">
                <VStack>

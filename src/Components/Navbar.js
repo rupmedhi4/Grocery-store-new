@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Box,
   Flex,
@@ -8,31 +8,27 @@ import {
   ChakraProvider,
   Link,
   useDisclosure,
-} from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
-import { FcShop } from "react-icons/fc";
-import { useNavigate } from "react-router-dom";
-import { ColorModeSwitcher } from "../ColorModeSwitcher";
-import { auth } from "./Firebase/FireBase";
-import { useSelector } from "react-redux";
-import CartDrawer from "./AddCart/CartDrawer";
-
-import AddtoCart from "./AddCart/AddtoCart";
-import ShoppingCartSlices from "./Redux/Slices/ShoppingCartSlices";
+  Spacer,
+  useColorMode,
+} from '@chakra-ui/react';
+import { SearchIcon } from '@chakra-ui/icons';
+import { FcShop } from 'react-icons/fc';
+import { useNavigate } from 'react-router-dom';
+import { auth } from './Firebase/FireBase';
+import { useSelector } from 'react-redux';
+import CartDrawer from './AddCart/CartDrawer';
 
 const Navbar = () => {
   const user = useSelector((state) => state.isLoginSlices.user);
-  const addToCartBadge = useSelector((state) => state.ShoppingCartSlices.addToCart);
-
-  const { onOpen } = useDisclosure();
   const navigate = useNavigate();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const loginHandler = async () => {
-    navigate("/login");
+    navigate('/login');
   };
 
   const signupHandler = () => {
-    navigate("/signup");
+    navigate('/signup');
   };
 
   const signOutHandler = async () => {
@@ -42,149 +38,158 @@ const Navbar = () => {
       alert(err.message);
     }
   };
-  const addtoCartHandler =  () => {
-   navigate("/addcart")
+
+  const addtoCartHandler = () => {
+    navigate('/addcart');
   };
 
   return (
-    <>
     <Flex
       as="nav"
       align="center"
       justify="space-between"
       padding={4}
-      bg="blue.800"
       color="white"
-      position={"sticky"}
+      position="sticky"
+      top={0}
+      zIndex={1000}
+      boxShadow="md"
+      flexWrap="wrap"
+      bg={"#c92c80"}
     >
-      <Box marginLeft={"6rem"}>
+      <Flex align="center" flexGrow={1} order={{ base: 2, md: 1 }} >
         <IconButton
-          icon={<FcShop size={"2.5rem"} />}
+          icon={<FcShop size="2.5rem" />}
           size="xl"
-          backgroundColor="blue"
+          backgroundColor="transparent"
           aria-label="Shopping Logo"
-          marginRight={2}
+          mr={2}
+
         />
-        {/* Home Link */}
         <Link
           href="/"
-          marginRight={4}
-          style={{ textDecoration: "none" }}
+          mr={4}
+          textDecoration="none"
           _hover={{
-            color: "red",
-            boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+            color: 'black',
+            boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
           }}
         >
           Home
         </Link>
-        {user ?
+        {user && (
           <Link
-                  href="/shoppingcart"
-                  marginRight={4}
-                  style={{ textDecoration: "none" }}
-                  _hover={{
-                    color: "red",
-                    boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-                  }}
-                >
-                  Shop
-                </Link> : null
-        }
-        
+            href="/shoppingcart"
+            mr={4}
+            textDecoration="none"
+            _hover={{
+              color: 'black',
+              boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
+            }}
+          >
+            Shop
+          </Link>
+        )}
         <Link
           href="/allProducts"
-          marginRight={4}
-          style={{ textDecoration: "none" }}
+          mr={4}
+          textDecoration="none"
           _hover={{
-            color: "red",
-            boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+            color: 'black',
+            boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
           }}
         >
           Featured
         </Link>
         <Link
           href="/contact"
-          marginRight={4}
-          style={{ textDecoration: "none" }}
+          mr={4}
+          textDecoration="none"
           _hover={{
-            color: "red",
-            boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+            color: 'black',
+            boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
           }}
         >
           Recommended
         </Link>
-      </Box>
-
-      <Flex align="center">
-        {/* Search Input */}
-        <Input
-          variant="filled"
-          bg="white"
-          marginRight={2}
-          _placeholder={{ color: "gray" }}
-          _hover={{
-            border: "1px solid #ccc",
-            boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-          }}
-          placeholder="Search"
-        />
-        <IconButton
-          icon={<FcShop size={"2.5rem"} />}
-          size="xl"
-          backgroundColor="blue"
-          aria-label="Shopping Logo"
-          marginRight={"6rem"}
-        />
-
-        {/* Sign Up Button */}
-        <Flex marginRight={"7rem"}>
-          {user ? (
-            <>
-              <Button
-                colorScheme="teal"
-                variant="solid"
-                onClick={signOutHandler}
-              >
-                Sign Out
-              </Button>
-              {/* <Button
-                colorScheme="teal"
-                variant="solid"
-                onClick={onOpen}
-              >
-               add to cart{addToCartBadge.length}
-              </Button> */}
-              <CartDrawer/>
-              
-            </>
-          ) : (
-            <>
-              <Button
-                colorScheme="teal"
-                variant="outline"
-                marginRight={2}
-                onClick={signupHandler}
-              >
-                Sign Up
-              </Button>
-              {/* Login Button */}
-              <Button
-                marginRight={"4"}
-                colorScheme="teal"
-                variant="solid"
-                onClick={loginHandler}
-              >
-                Login
-              </Button>
-            </>
-          )}
-        </Flex>
       </Flex>
-      <ColorModeSwitcher />
+
+      <Flex align="center" flex={1} mt={{ base: 4, md: 0 }} order={{ base: 1, md: 2 }}>
+        <Box flex={1} mr={2}>
+          <Input
+            variant="filled"
+            bg="white"
+            _placeholder={{ color: 'gray' }}
+            _hover={{
+              border: '1px solid #ccc',
+              boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
+              bg:"dd2a6f"
+            }}
+            placeholder="Search"
+          />
+        </Box>
+        <IconButton
+          icon={<SearchIcon />}
+          size="xl"
+          backgroundColor="transparent"
+          aria-label="Search Icon"
+          mr={6}
+        />
+      </Flex>
+
+      <Flex align="center" order={{ base: 3, md: 3 }}>
+        {user ? (
+          <>
+            <Button
+              colorScheme="teal"
+              variant="solid"
+              onClick={signOutHandler}
+              mr={4}
+              _hover={{
+                border: '1px solid #ccc',
+                bg: 'orange',
+                boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
+              }}
+              bg={'#b2e4ed'}
+            >
+              Sign Out
+            </Button>
+
+            <CartDrawer />
+          </>
+        ) : (
+          <>
+            <Button
+              colorScheme="teal"
+              variant="outline"
+              mr={2}
+              onClick={signupHandler}
+              _hover={{
+                border: '1px solid #ccc',
+                bg: 'orange',
+                boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
+              }}
+              bg={"#36031e"}
+            >
+              Sign Up
+            </Button>
+            <Button colorScheme="teal" onClick={loginHandler} mr={4} 
+              variant="outline"
+           
+              _hover={{
+                border: '1px solid #ccc',
+                bg: 'orange',
+                boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
+              }}
+              bg={"#36031e"}>
+              Login
+            </Button>
+          </>
+        )}
+      </Flex>
+
+
     </Flex>
-    
-    </>
-    
   );
 };
 
