@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setDoc, doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../Firebase/FireBase';
 import { AddToCartHandler } from '../Redux/Slices/ShoppingCartSlices';
+import { addFirebaseData } from '../Redux/Slices/ShoppingCartSlices';
 
 export default function AllCarts({ product, id, user }) {
 
@@ -19,7 +20,9 @@ export default function AllCarts({ product, id, user }) {
   const dispatch = useDispatch();
   const [isHovered, setIsHovered] = useState(false);
 
-  const [Data , setData] = useState([])
+  //const [Data , setData] = useState([])
+  const Data = useSelector((state) => state.ShoppingCartSlices.Data);
+
   
 
   useEffect(() => {
@@ -27,7 +30,8 @@ export default function AllCarts({ product, id, user }) {
       const docRef = doc(db, "newdata3", user.uid);
       const unsubscribe = onSnapshot(docRef, (docSnap) => {
         if (docSnap.exists()) {
-          setData(docSnap.data().data);
+          //setData(docSnap.data().data);
+          dispatch(addFirebaseData(docSnap.data().data))
         } else {
           console.log("no doc");
         }
@@ -64,9 +68,6 @@ export default function AllCarts({ product, id, user }) {
     }
   };
   
-  
-  
-
   return (
     <Card
       key={id}

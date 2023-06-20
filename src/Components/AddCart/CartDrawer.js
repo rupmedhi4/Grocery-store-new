@@ -27,6 +27,8 @@ export default function CartDrawer() {
   const user = useSelector((state) => state.ShoppingCartSlices.addToCart);
   const subAmount = useSelector((state) => state.ShoppingCartSlices.amount);
   const dispatch = useDispatch();
+  const Data = useSelector((state) => state.ShoppingCartSlices.Data);
+
 
   const increaseHandler = (id) => {
     dispatch(QuantityIncrease(id))
@@ -45,7 +47,7 @@ export default function CartDrawer() {
         bg="blue.500"
         _active={{ bg: 'blue.600' }}
       >
-        Add to cart {user.length}
+        Add to cart {Data.length}
       </Button>
 
       <Drawer

@@ -87,6 +87,7 @@ const ShoppingCartSlices = createSlice({
         ],
         addToCart: [],
         amount:0,
+        Data : ''
         
 
     },
@@ -118,13 +119,6 @@ const ShoppingCartSlices = createSlice({
                 state.amount += filteredArray[0].amount * filteredArray[0].Quantity;
               }
             }
-           
-            
-           
-
-           
-           
-
           },
           QuantityIncrease: (state, action) => {
             const id = action.payload;
@@ -194,13 +188,16 @@ const ShoppingCartSlices = createSlice({
           },
           clearCartHandler : (state, action)=>{
             state.addToCart = []
-          }
+          },
+          addFirebaseData : (state, action)=>{
+            state.Data = action.payload;
+          },
           
            
     },
 });
 
 
-export const { ShowAllCarts, AddToCartHandler,QuantityIncrease,QuantityDecrease,removeCart,clearCartHandler } = ShoppingCartSlices.actions;
+export const { ShowAllCarts, AddToCartHandler,QuantityIncrease,QuantityDecrease,removeCart,clearCartHandler,addFirebaseData } = ShoppingCartSlices.actions;
 
 export default ShoppingCartSlices.reducer;
