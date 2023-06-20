@@ -19,7 +19,7 @@ export default function AllCarts({ product, id, user }) {
   const dispatch = useDispatch();
   const [isHovered, setIsHovered] = useState(false);
 
-  const [data , setData] = useState([])
+  const [Data , setData] = useState([])
   
 
   useEffect(() => {
@@ -40,14 +40,28 @@ export default function AllCarts({ product, id, user }) {
   }, [user]); 
 
   const addHandler = async () => {
-    alert("ok");
-    const filteredArray = productArray.filter((item) => item.id === id);
-    await setDoc(doc(db, "newdata3", user.uid), {
-      data: [...filteredArray, ...data,]
-      
-    });
-    console.log("filtered arrey")
-    console.log(data);
+    try {
+  
+      const filteredArray = productArray.filter((item) => item.id === id);
+      const isDuplicate = Data.some((item) => item.id === id);
+  
+      if (isDuplicate) {
+        // console.log("Item already exists. Cannot add duplicate.");
+        // console.log(isDuplicate)
+        alert("Item already exists. Cannot add duplicate.")
+
+      } else {
+        await setDoc(doc(db, "newdata3", user.uid), {
+          data: [...filteredArray, ...Data],
+        });
+        alert("Item added successfully")
+
+        // console.log("Item added successfully.");
+        // console.log(isDuplicate)
+      }
+    } catch (error) {
+      console.log("Error adding item:", error);
+    }
   };
   
   

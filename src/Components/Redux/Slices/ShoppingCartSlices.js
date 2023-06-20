@@ -50,6 +50,38 @@ const ShoppingCartSlices = createSlice({
                 id: 5,
                 Quantity: 1
             },
+            {
+              img: 'https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2F7l3FMZqY8JdfssalDgx2?alt=media&token=be15689c-e12c-4829-9d78-32395ef1e3f7',
+              title: 'Dummy Title 1',
+              paragraph: 'Paragraph 1',
+              amount: 5,
+              id: 6,
+              Quantity: 1
+          },
+          {
+            img: 'https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2F7l3FMZqY8JdfssalDgx2?alt=media&token=be15689c-e12c-4829-9d78-32395ef1e3f7',
+            title: 'Dummy Title 1',
+            paragraph: 'Paragraph 1',
+            amount: 5,
+            id: 7,
+            Quantity: 1
+        },
+        {
+          img: 'https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2F7l3FMZqY8JdfssalDgx2?alt=media&token=be15689c-e12c-4829-9d78-32395ef1e3f7',
+          title: 'Dummy Title 1',
+          paragraph: 'Paragraph 1',
+          amount: 5,
+          id: 8,
+          Quantity: 1
+      },
+      {
+        img: 'https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2F7l3FMZqY8JdfssalDgx2?alt=media&token=be15689c-e12c-4829-9d78-32395ef1e3f7',
+        title: 'Dummy Title 1',
+        paragraph: 'Paragraph 1',
+        amount: 5,
+        id: 9,
+        Quantity: 1
+    },
 
            
         ],
