@@ -9,7 +9,7 @@ export default function Cart({user}) {
   return (
     <SimpleGrid columns={3} spacing={8} justifyContent="center">
       {productArray.map((item) => (
-        <AllCarts product={item} key={item.id} id={item.id} user={user}/>
+        <AllCarts product={item} key={item.id} id={item.id} />
       ))}
     </SimpleGrid>
   );

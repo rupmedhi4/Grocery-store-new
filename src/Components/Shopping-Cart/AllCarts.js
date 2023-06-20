@@ -14,7 +14,7 @@ import { db } from '../Firebase/FireBase';
 import { AddToCartHandler } from '../Redux/Slices/ShoppingCartSlices';
 import { addFirebaseData } from '../Redux/Slices/ShoppingCartSlices';
 
-export default function AllCarts({ product, id, user }) {
+export default function AllCarts({ product, id }) {
 
   const productArray = useSelector((state) => state.ShoppingCartSlices.dummyArray);
   const dispatch = useDispatch();
@@ -22,6 +22,7 @@ export default function AllCarts({ product, id, user }) {
 
   //const [Data , setData] = useState([])
   const Data = useSelector((state) => state.ShoppingCartSlices.Data);
+  const user = useSelector((state) => state.ShoppingCartSlices.user);
 
   
 

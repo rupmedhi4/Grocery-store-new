@@ -87,7 +87,8 @@ const ShoppingCartSlices = createSlice({
         ],
         addToCart: [],
         amount:0,
-        Data : ''
+        Data : [],
+        user: ''
         
 
     },
@@ -192,12 +193,15 @@ const ShoppingCartSlices = createSlice({
           addFirebaseData : (state, action)=>{
             state.Data = action.payload;
           },
+          users : (state, action)=>{
+            state.user = action.payload;
+          },
           
            
     },
 });
 
 
-export const { ShowAllCarts, AddToCartHandler,QuantityIncrease,QuantityDecrease,removeCart,clearCartHandler,addFirebaseData } = ShoppingCartSlices.actions;
+export const { ShowAllCarts, AddToCartHandler,QuantityIncrease,QuantityDecrease,removeCart,clearCartHandler,addFirebaseData,users } = ShoppingCartSlices.actions;
 
 export default ShoppingCartSlices.reducer;
