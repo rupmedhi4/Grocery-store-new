@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Image,
@@ -6,31 +6,52 @@ import {
   Text,
   Button,
   ButtonGroup,
-  Grid,
-  Divider,
-  Flex,
-  useDisclosure,
   Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Stack,
-  VStack,
-  HStack,
-  SimpleGrid,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
+import { setDoc, doc, onSnapshot } from 'firebase/firestore';
+import { db } from '../Firebase/FireBase';
 import { AddToCartHandler } from '../Redux/Slices/ShoppingCartSlices';
 
-export default function AllCarts({ product, id }) {
+export default function AllCarts({ product, id, user }) {
+
   const productArray = useSelector((state) => state.ShoppingCartSlices.dummyArray);
   const dispatch = useDispatch();
   const [isHovered, setIsHovered] = useState(false);
 
-  const addHandler = (id) => {
+  const [data , setData] = useState([])
+  
+
+  useEffect(() => {
+    if (user) {
+      const docRef = doc(db, "newdata3", user.uid);
+      const unsubscribe = onSnapshot(docRef, (docSnap) => {
+        if (docSnap.exists()) {
+          setData(docSnap.data().data);
+        } else {
+          console.log("no doc");
+        }
+      });
+      return () => unsubscribe(); // Cleanup the listener when the component unmounts
+
+    } else {
+      console.log("error");
+    }
+  }, [user]); 
+
+  const addHandler = async () => {
+    alert("ok");
     const filteredArray = productArray.filter((item) => item.id === id);
-    dispatch(AddToCartHandler({ filteredArray, id }));
+    await setDoc(doc(db, "newdata3", user.uid), {
+      data: [...filteredArray, ...data,]
+      
+    });
+    console.log("filtered arrey")
+    console.log(data);
   };
+  
+  
+  
 
   return (
     <Card
@@ -43,7 +64,6 @@ export default function AllCarts({ product, id }) {
       transition="transform 0.3s ease"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-     // mx={4} // Add horizontal gap
       my={8} // Add vertical gap
       w="100%" // Make the cart responsive
       maxW="sm" // Limit the maximum width of the cart
@@ -78,7 +98,7 @@ export default function AllCarts({ product, id }) {
           </Button>
           <Button
             size="sm"
-            onClick={() => addHandler(product.id)}
+            onClick={addHandler}
             color={isHovered ? 'white' : 'black'}
             bg={isHovered ? 'blue' : 'orange'}
           >

@@ -90,7 +90,7 @@ export default function CartDrawer() {
                   </DrawerBody>
                   <ButtonGroup >
                     <Button onClick={() => (increaseHandler(item.id))}  bg={"orange"} color={"black"}>+</Button>
-                    <Button onClick={() => (decreaseHandler(item.id))}  bg={"orange"} color={"black"}>-</Button>
+                    <Button onClick={() => (decreaseHandler(item.id))}  bg={"orange"} color={"black"} >-</Button>
                   </ButtonGroup>
                 </Box>
               ))

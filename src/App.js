@@ -37,6 +37,9 @@ import AddtoCart from './Components/AddCart/AddtoCart';
     return () => unsubscribe();
   }, []);
 
+ 
+
+
   return (
     <Router>
       <ChakraProvider theme={theme}>
@@ -56,7 +59,7 @@ import AddtoCart from './Components/AddCart/AddtoCart';
           <Route path="/signup" element={<SignUpForm />} />
           <Route path="/dashboard" element={<PrivateRoutes component={Dashboard} alt={Login} />}/>
           <Route path="/addcart" element={<PrivateRoutes component={AddtoCart} alt={Login} />}/>
-          <Route path="/shoppingcart" element={<PrivateRoutes component={Cart} alt={Login} />}/>
+          <Route path="/shoppingcart" element={<PrivateRoutes component={() => <Cart user={user} />} alt={Login} />} />
 
          
         </Routes>

@@ -1,4 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { db } from "../../Firebase/FireBase";
+import { doc,setDoc } from "firebase/firestore";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+
+
+
 
 const ShoppingCartSlices = createSlice({
     name: "ShoppingCartSlices",
@@ -12,60 +18,44 @@ const ShoppingCartSlices = createSlice({
                 id: 1,
                 Quantity: 1
             },
-
             {
                 img: 'https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2F7l3FMZqY8JdfssalDgx2?alt=media&token=be15689c-e12c-4829-9d78-32395ef1e3f7',
-                title: 'Dummy Title 2',
-                paragraph: 'Paragraph 2',
-                amount: 12,
+                title: 'Dummy Title 1',
+                paragraph: 'Paragraph 1',
+                amount: 2,
                 id: 2,
                 Quantity: 1
             },
-
             {
                 img: 'https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2F7l3FMZqY8JdfssalDgx2?alt=media&token=be15689c-e12c-4829-9d78-32395ef1e3f7',
-                title: 'Dummy Title 3',
-                paragraph: 'Paragraph 3',
-                amount: 43,
+                title: 'Dummy Title 1',
+                paragraph: 'Paragraph 1',
+                amount: 3,
                 id: 3,
                 Quantity: 1
             },
-
             {
                 img: 'https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2F7l3FMZqY8JdfssalDgx2?alt=media&token=be15689c-e12c-4829-9d78-32395ef1e3f7',
-                title: 'Dummy Title 4',
-                paragraph: 'Paragraph 4',
-                amount: 44,
+                title: 'Dummy Title 1',
+                paragraph: 'Paragraph 1',
+                amount: 4,
                 id: 4,
                 Quantity: 1
             },
             {
                 img: 'https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2F7l3FMZqY8JdfssalDgx2?alt=media&token=be15689c-e12c-4829-9d78-32395ef1e3f7',
-                title: 'Dummy Title 4',
-                paragraph: 'Paragraph 4',
-                amount: 44,
-                id: 4,
-                Quantity: 1
-            },
-            {
-                img: 'https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2F7l3FMZqY8JdfssalDgx2?alt=media&token=be15689c-e12c-4829-9d78-32395ef1e3f7',
-                title: 'Dummy Title 5',
-                paragraph: 'Paragraph 5',
-                amount: 44,
+                title: 'Dummy Title 1',
+                paragraph: 'Paragraph 1',
+                amount: 5,
                 id: 5,
                 Quantity: 1
             },
-            {
-                img: 'https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2F7l3FMZqY8JdfssalDgx2?alt=media&token=be15689c-e12c-4829-9d78-32395ef1e3f7',
-                title: 'Dummy Title 6',
-                paragraph: 'Paragraph 6',
-                amount: 44,
-                id: 6,
-                Quantity: 1
-            },
+
+           
         ],
         addToCart: [],
         amount:0,
+        
 
     },
 
@@ -74,8 +64,8 @@ const ShoppingCartSlices = createSlice({
             const data = action.payload
             console.log(data)
         },
-        AddToCartHandler: (state, action) => {
-            const { filteredArray, id } = action.payload;
+        AddToCartHandler:  (state, action) => {
+            const { filteredArray, id , user} = action.payload;
       
             if (state.addToCart.length === 0) {
               state.addToCart = [filteredArray];
@@ -96,8 +86,13 @@ const ShoppingCartSlices = createSlice({
                 state.amount += filteredArray[0].amount * filteredArray[0].Quantity;
               }
             }
-      
-            console.log(state.amount);
+           
+            
+           
+
+           
+           
+
           },
           QuantityIncrease: (state, action) => {
             const id = action.payload;
