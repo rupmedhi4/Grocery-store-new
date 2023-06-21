@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Drawer,
   DrawerBody,
@@ -23,23 +23,36 @@ import { QuantityIncrease, QuantityDecrease, removeCart, clearCartHandler } from
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../Firebase/FireBase';
 import { getDoc } from 'firebase/firestore';
+import { deleteDoc } from 'firebase/firestore';
 
 export default function CartDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   const user = useSelector((state) => state.ShoppingCartSlices.addToCart);
+  const dummyArray = useSelector((state) => state.ShoppingCartSlices.dummyArray);
   const subAmount = useSelector((state) => state.ShoppingCartSlices.amount);
   const dispatch = useDispatch();
   const Data = useSelector((state) => state.ShoppingCartSlices.Data);
   const currentUser = useSelector((state) => state.ShoppingCartSlices.user);
+  let [subtotal, setSubtotal] = useState()
+  
 
+
+ 
 
   const increaseHandler = async (id) => {
     try {
       const docRef = doc(db, "newdata3", currentUser.uid);
       const filteredArray = Data.filter((item) => item.id === id);
       const Quantity = filteredArray[0].Quantity + 1;
+      const currentPrice = filteredArray[0].amount;
   
+      //update price according quantity
+      
+      const realPrice = dummyArray.filter((item) => item.id === id);
+      const updatePrice = realPrice[0].amount+currentPrice;
+     // console.log(updatePrice)
+
       // Get the current data from Firestore
       const docSnapshot = await getDoc(docRef);
       const currentData = docSnapshot.data();
@@ -49,6 +62,7 @@ export default function CartDrawer() {
   
       // Update the quantity of the item in the "data" array
       currentData.data[itemIndex].Quantity = Quantity;
+      currentData.data[itemIndex].amount = updatePrice;
   
       // Update the document in Firestore with the modified data
       await updateDoc(docRef, currentData);
@@ -60,9 +74,68 @@ export default function CartDrawer() {
   };
   
   
-  const decreaseHandler = (id) => {
-    dispatch(QuantityDecrease(id))
-  }
+  useEffect(() => {
+    const newSubtotal = Data.reduce((acc, item) => acc + item.amount, 0);
+    setSubtotal(newSubtotal);
+    console.log(newSubtotal);
+  }, [Data]);
+  
+  
+  const decreaseHandler = async (id) => {
+    try {
+      const docRef = doc(db, "newdata3", currentUser.uid);
+      const filteredArray = Data.filter((item) => item.id === id);
+      const Quantity = filteredArray[0].Quantity - 1;
+      const currentPrice = filteredArray[0].amount;
+
+      //update price according quantity
+          
+      const realPrice = dummyArray.filter((item) => item.id === id);
+      const updatePrice = currentPrice - realPrice[0].amount;
+
+      // Get the current data from Firestore
+      const docSnapshot = await getDoc(docRef);
+      const currentData = docSnapshot.data();
+  
+      // Find the index of the item in the "data" array
+      const itemIndex = currentData.data.findIndex((item) => item.id === id);
+  
+      // Update the quantity of the item in the "data" array
+      currentData.data[itemIndex].Quantity = Quantity;
+      currentData.data[itemIndex].amount = updatePrice;
+
+      // Update the document in Firestore with the modified data
+      await updateDoc(docRef, currentData);
+  
+     // dispatch(QuantityIncrease(id));
+    } catch (error) {
+      console.log("Error updating quantity:", error);
+    }
+  };
+  const deleteHandler = async (id) => {
+    try {
+      const docRef = doc(db, "newdata3", currentUser.uid);
+      
+      // Get the current data from Firestore
+      const docSnapshot = await getDoc(docRef);
+      const currentData = docSnapshot.data();
+    
+      // Find the index of the item in the "data" array
+      const itemIndex = currentData.data.findIndex((item) => item.id === id);
+      
+      // Remove the item from the "data" array
+      currentData.data.splice(itemIndex, 1);
+    
+      // Update the document in Firestore with the modified data
+      await updateDoc(docRef, currentData);
+    
+      // Dispatch an action to update the Redux store if needed
+      // dispatch(removeCart(id));
+    } catch (error) {
+      console.log("Error deleting item:", error);
+    }
+  };
+  
 
   return (
     <>
@@ -109,7 +182,8 @@ export default function CartDrawer() {
               <Box key={item.id} py={2} borderBottom='1px solid #ddd' align='center' height={"300"} >
                 <HStack align='center' justify='space-between' ml={"170"} >
                   <Box>{item.title}</Box>
-                  <Button onClick={() => (dispatch(removeCart(item.id)))}>X</Button>
+                  <Button onClick={() => deleteHandler(item.id)}>X</Button>
+
                 </HStack>
                 <Text>Total Quantity : {item.Quantity}</Text>
                 <DrawerBody mt={"-10"} overflowY={'hidden'}>
@@ -128,9 +202,9 @@ export default function CartDrawer() {
             <Button variant="outline" mr={3} onClick={onClose} bg={"orange"} color={"black"}>
               Cancel
             </Button>
-            <Box>
+            <Box color={"white"}>
               <Text>Subtotal Amount</Text>
-              <Text>Rs {subAmount} </Text>
+              <Text>Rs {subtotal} </Text>
             </Box>
 
           </DrawerFooter>
