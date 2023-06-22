@@ -20,7 +20,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { Text } from '@chakra-ui/react';
 import { QuantityIncrease, QuantityDecrease, removeCart, clearCartHandler } from '../Redux/Slices/ShoppingCartSlices';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../Firebase/FireBase';
 import { getDoc } from 'firebase/firestore';
 import { deleteDoc } from 'firebase/firestore';
@@ -35,10 +35,10 @@ export default function CartDrawer() {
   const Data = useSelector((state) => state.ShoppingCartSlices.Data);
   const currentUser = useSelector((state) => state.ShoppingCartSlices.user);
   let [subtotal, setSubtotal] = useState()
-  
 
 
- 
+
+
 
   const increaseHandler = async (id) => {
     try {
@@ -46,41 +46,43 @@ export default function CartDrawer() {
       const filteredArray = Data.filter((item) => item.id === id);
       const Quantity = filteredArray[0].Quantity + 1;
       const currentPrice = filteredArray[0].amount;
-  
+
       //update price according quantity
-      
+
       const realPrice = dummyArray.filter((item) => item.id === id);
-      const updatePrice = realPrice[0].amount+currentPrice;
-     // console.log(updatePrice)
+      const updatePrice = realPrice[0].amount + currentPrice;
+      // console.log(updatePrice)
 
       // Get the current data from Firestore
       const docSnapshot = await getDoc(docRef);
       const currentData = docSnapshot.data();
-  
+
       // Find the index of the item in the "data" array
       const itemIndex = currentData.data.findIndex((item) => item.id === id);
-  
+
       // Update the quantity of the item in the "data" array
       currentData.data[itemIndex].Quantity = Quantity;
       currentData.data[itemIndex].amount = updatePrice;
-  
+
       // Update the document in Firestore with the modified data
       await updateDoc(docRef, currentData);
-  
-     // dispatch(QuantityIncrease(id));
+
+      // dispatch(QuantityIncrease(id));
     } catch (error) {
       console.log("Error updating quantity:", error);
     }
   };
-  
-  
+
+
   useEffect(() => {
-    const newSubtotal = Data.reduce((acc, item) => acc + item.amount, 0);
-    setSubtotal(newSubtotal);
-    console.log(newSubtotal);
+    if (Data) {
+      const newSubtotal = Data.reduce((acc, item) => acc + item.amount, 0);
+      setSubtotal(newSubtotal);
+      console.log(newSubtotal);
+    }
   }, [Data]);
-  
-  
+
+
   const decreaseHandler = async (id) => {
     try {
       const docRef = doc(db, "newdata3", currentUser.uid);
@@ -89,25 +91,25 @@ export default function CartDrawer() {
       const currentPrice = filteredArray[0].amount;
 
       //update price according quantity
-          
+
       const realPrice = dummyArray.filter((item) => item.id === id);
       const updatePrice = currentPrice - realPrice[0].amount;
 
       // Get the current data from Firestore
       const docSnapshot = await getDoc(docRef);
       const currentData = docSnapshot.data();
-  
+
       // Find the index of the item in the "data" array
       const itemIndex = currentData.data.findIndex((item) => item.id === id);
-  
+
       // Update the quantity of the item in the "data" array
       currentData.data[itemIndex].Quantity = Quantity;
       currentData.data[itemIndex].amount = updatePrice;
 
       // Update the document in Firestore with the modified data
       await updateDoc(docRef, currentData);
-  
-     // dispatch(QuantityIncrease(id));
+
+      // dispatch(QuantityIncrease(id));
     } catch (error) {
       console.log("Error updating quantity:", error);
     }
@@ -115,27 +117,41 @@ export default function CartDrawer() {
   const deleteHandler = async (id) => {
     try {
       const docRef = doc(db, "newdata3", currentUser.uid);
-      
+
       // Get the current data from Firestore
       const docSnapshot = await getDoc(docRef);
       const currentData = docSnapshot.data();
-    
+
       // Find the index of the item in the "data" array
       const itemIndex = currentData.data.findIndex((item) => item.id === id);
-      
+
       // Remove the item from the "data" array
       currentData.data.splice(itemIndex, 1);
-    
+
       // Update the document in Firestore with the modified data
       await updateDoc(docRef, currentData);
-    
+
       // Dispatch an action to update the Redux store if needed
       // dispatch(removeCart(id));
     } catch (error) {
       console.log("Error deleting item:", error);
     }
   };
-  
+
+  const allDatadeleteHandler = async () => {
+    try {
+      const docRef = doc(db, "newdata3", currentUser.uid);
+
+      const docSnapshot = await getDoc(docRef);
+      const currentData = docSnapshot.data();
+      currentData.data = []
+      await setDoc(docRef, currentData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
 
   return (
     <>
@@ -174,7 +190,7 @@ export default function CartDrawer() {
               <Box ml={"6"} color={"white"}>My Carts ({Data.length})</Box>
               <HStack >
                 <Button onClick={onClose} bg={"white"} color={"black"} h={"7"} w={"12"}>Close</Button>
-                <Button onClick={() => (dispatch(clearCartHandler()))} bg={"white"} h={"7"} w={"21"} color={"black"}>Clear Carts</Button>
+                <Button onClick={allDatadeleteHandler} bg={"white"} h={"7"} w={"21"} color={"black"}>Clear Carts</Button>
               </HStack>
             </Flex>
 
