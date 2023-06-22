@@ -87,7 +87,9 @@ export default function CartDrawer() {
     try {
       const docRef = doc(db, "newdata3", currentUser.uid);
       const filteredArray = Data.filter((item) => item.id === id);
-      const Quantity = filteredArray[0].Quantity - 1;
+      const currentCartQuantity = filteredArray[0].Quantity;
+      if(currentCartQuantity > 1){
+         const Quantity = filteredArray[0].Quantity - 1;
       const currentPrice = filteredArray[0].amount;
 
       //update price according quantity
@@ -108,8 +110,9 @@ export default function CartDrawer() {
 
       // Update the document in Firestore with the modified data
       await updateDoc(docRef, currentData);
-
-      // dispatch(QuantityIncrease(id));
+      }else{
+        return
+      }
     } catch (error) {
       console.log("Error updating quantity:", error);
     }
